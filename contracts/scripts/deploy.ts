@@ -1,15 +1,13 @@
-import { ethers } from "hardhat";
+import hre from "hardhat";
 
 async function main() {
-  const EasyBet = await ethers.getContractFactory("EasyBet");
-  const easyBet = await EasyBet.deploy();
-  await easyBet.deployed();
+  const { ethers } = await hre.network.create();
+  const miniDEX = await ethers.deployContract("MiniDEX");
+  await miniDEX.waitForDeployment();
 
-  console.log(`EasyBet deployed to ${easyBet.address}`);
+  console.log(`MiniDEX deployed to ${await miniDEX.getAddress()}`);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

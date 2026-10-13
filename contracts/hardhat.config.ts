@@ -1,18 +1,33 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+import hardhatToolboxMochaEthers from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import { defineConfig } from "hardhat/config";
 
-const config: HardhatUserConfig = {
-  solidity: "0.8.20",
-  networks: {
-    ganache: {
-      // rpc url, change it according to your ganache configuration
-      url: 'http://localhost:8545',
-      // the private key of signers, change it according to your ganache user
-      accounts: [
-        '0x172a483415c5e119f1ea336d44646572ac34a088e7bc2884f8e1f83da4cb304a'
-      ]
+export default defineConfig({
+  plugins: [hardhatToolboxMochaEthers],
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      // 兼容教学中使用的 Ganache 节点。
+      evmVersion: "paris",
     },
   },
-};
-
-export default config;
+  networks: {
+    hardhat: {
+      type: "edr-simulated",
+      chainType: "l1",
+      chainId: 31337,
+    },
+    localhost: {
+      type: "http",
+      chainType: "l1",
+      chainId: 31337,
+      url: process.env.LOCAL_RPC_URL ?? "http://127.0.0.1:8545",
+      accounts: "remote",
+    },
+    ganache: {
+      type: "http",
+      chainType: "l1",
+      url: process.env.GANACHE_RPC_URL ?? "http://127.0.0.1:8545",
+      accounts: "remote",
+    },
+  },
+});

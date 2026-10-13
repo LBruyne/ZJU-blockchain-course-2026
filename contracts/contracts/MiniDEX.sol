@@ -9,21 +9,23 @@ pragma solidity ^0.8.20;
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-contract EasyBet {
+contract MiniDEX {
 
     // use a event if you want
     // to represent time you can choose block.timestamp
-    event BetPlaced(uint256 tokenId, uint256 price, address owner);
+    event PoolCreated(uint256 poolId, address tokenA, address tokenB);
 
-    // maybe you need a struct to store some activity information
-    struct Activity {
-        address owner;
-        uint256 listedTimestamp;
-        string[] choices;
+    // maybe you need a struct to store some pool information
+    struct Pool {
+        address tokenA;
+        address tokenB;
+        uint256 reserveA;
+        uint256 reserveB;
+        uint256 createdTimestamp;
         // ...
     }
 
-    mapping(uint256 => Activity) public activities; // A map from activity-index to its information
+    mapping(uint256 => Pool) public pools; // A map from pool-index to its information
     // ...
     // TODO add any variables and functions if you want
 
